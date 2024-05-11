@@ -15,7 +15,7 @@
     <li><a href="#dependencias">Dependencias</a></li>
     <li><a href="#Contacto">Contacto</a></li>
   </ol>
-</details
+</details>
 
 ## Configuración
 
