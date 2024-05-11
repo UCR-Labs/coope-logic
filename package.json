@@ -1,0 +1,26 @@
+{
+  "name": "coope-logic",
+  "version": "1.0.0",
+  "description": "Libreria para el manejo de negocio de coope ",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UCR-Labs/Coope-Logic.git"
+  },
+  "keywords": [
+    "Coope"
+  ],
+  "author": "UCR-Labs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UCR-Labs/Coope-Logic/issues"
+  },
+  "homepage": "https://github.com/UCR-Labs/Coope-Logic#readme",
+  "devDependencies": {
+    "mocha": "^10.4.0",
+    "nyc": "^15.1.0"
+  }
+}
