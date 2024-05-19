@@ -1,5 +1,30 @@
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import * as express from 'express';
+import * as cors from 'cors';
 
+const app = express();
+app.use(cors());
+const db = admin.firestore();
+import {AverageRating, Rating, UserType, FirestoreCollections} from 'rideTypes';
 
+exports.calculateAverageRating = functions.firestore
+  .document(`${FirestoreCollections.ratings}/{ratingId}`)
+  .onCreate(async (snapshot) => {
+    const newRating = snapshot.data();
+    const userId = newRating.ratedUserId;
+
+    const averageRating = await calculateAverageRatingForUser(
+      userId,
+      newRating.ratedUserType,
+      newRating
+    );
+
+    await db
+      .collection(FirestoreCollections.averageRating)
+      .doc(userId)
+      .set(averageRating);
+  });
 
 
 async function calculateAverageRatingForUser(userId, userType, newRating) {
