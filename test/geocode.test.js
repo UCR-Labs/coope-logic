@@ -33,7 +33,7 @@ describe('geocode', () => {
     axiosStub.resolves(response);
 
     const result = await geocode(location, apiKey);
-    assert.deepStrictEqual(result, { address: 'San José, Costa Rica' });
+    assert.deepStrictEqual(result, { address: 'WWH5+6PC, San José, Bolivar, Costa Rica' });
   });
   
   it('should get an error if the geocode is not found', async () => {
