@@ -22,5 +22,8 @@
   "devDependencies": {
     "mocha": "^10.4.0",
     "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "sinon": "^18.0.0"
   }
 }
