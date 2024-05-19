@@ -25,7 +25,7 @@ describe('geocode', () => {
       data: {
         results: [
           {
-            formatted_address: 'San José, Costa Rica'
+            formatted_address: 'WWH5+6PC, San José, Bolivar, Costa Rica'
           }
         ]
       }
