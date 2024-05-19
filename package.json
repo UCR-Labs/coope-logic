@@ -21,6 +21,10 @@
   "homepage": "https://github.com/UCR-Labs/Coope-Logic#readme",
   "devDependencies": {
     "mocha": "^10.4.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "sinon": "^18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
   }
 }
