@@ -1,7 +1,7 @@
 const sqlite3 = require("sqlite3").verbose();
 
 class SQLiteFunctions {
-  SetValue(db, key, value, callback) {
+  SetKeyValue(db, key, value, callback) {
     if (!key || !value) {
       return callback(new Error("Invalid key or value"));
     }
@@ -13,6 +13,15 @@ class SQLiteFunctions {
         callback(err);
       }
     );
+  }
+
+  GetKeyValue(db, key, callback) {
+    db.get("SELECT value FROM kv WHERE key = ?", [key], (err, row) => {
+      if (err) {
+        return callback(err);
+      }
+      callback(null, row ? row.value : null);
+    });
   }
 }
 
