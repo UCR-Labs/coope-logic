@@ -4,7 +4,7 @@
   "description": "Libreria para el manejo de negocio de coope ",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha 'test/**/*.js'"
+    "test": "nyc mocha"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,5 @@
   "devDependencies": {
     "mocha": "^10.4.0",
     "nyc": "^15.1.0"
-  },
-  "dependencies": {
-    "sqlite3": "^5.1.7"
   }
 }
