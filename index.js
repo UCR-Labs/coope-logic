@@ -10,3 +10,8 @@ export { SQLiteFunctions } from "./src/storage/SQLite";
  * @param {Object} request - El objeto de solicitud HTTP.
  * @param {Object} response - El objeto de respuesta HTTP.
  */
+
+export const echo = functions.https.onRequest((request, response) => {
+    const message = request.body.message;
+    response.send({ message });
+  });
