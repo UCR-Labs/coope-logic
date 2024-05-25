@@ -7,16 +7,20 @@ const { adminPushNotifications } = require('../../src/admin/push_notifications')
 describe('adminPushNotifications', () => {
   let sendEachMock;
 
-  before(() => {
-    sinon.stub(admin, 'initializeApp');
+  beforeEach(() => {
+    sinon.stub(admin, 'initializeApp');    
     sendEachMock = sinon.stub().resolves();
-    sinon.stub(admin, 'messaging').returns({
+    const messagingStub = sinon.stub().returns({
       sendEach: sendEachMock,
     });
+    sinon.stub(admin, 'messaging').get(() => messagingStub);
+  });
+
+  afterEach(() => {
+    sinon.restore();    
   });
 
   after(() => {
-    sinon.restore();
     functions.cleanup();
   });
 
@@ -48,7 +52,7 @@ describe('adminPushNotifications', () => {
 
     const wrappedFunction = functions.wrap(adminPushNotifications);
     await wrappedFunction(snapshot);
-
+    
     assert.strictEqual(sendEachMock.called, false);
   });
 
@@ -62,7 +66,7 @@ describe('adminPushNotifications', () => {
     const wrappedFunction = functions.wrap(adminPushNotifications);
     await wrappedFunction(snapshot);
 
-    assert.strictEqual(sendEachMock.calledOnce, true);
+    assert.strictEqual(sendEachMock.called, true);
     const messages = sendEachMock.getCall(0).args[0];
     assert.strictEqual(messages.length, 2);
     assert.deepStrictEqual(messages, [
