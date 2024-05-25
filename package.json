@@ -20,13 +20,16 @@
   },
   "homepage": "https://github.com/UCR-Labs/Coope-Logic#readme",
   "devDependencies": {
+    "firebase-functions-test": "^3.2.0",
     "mocha": "^10.4.0",
     "nyc": "^15.1.0"
   },
   "dependencies": {
-    "sqlite3": "^5.1.7",
+    "axios": "^1.6.8",
+    "firebase-admin": "^12.1.1",
+    "firebase-functions": "^5.0.1",
     "nyc": "^15.1.0",
     "sinon": "^18.0.0",
-    "axios": "^1.6.8"
-  }  
+    "sqlite3": "^5.1.7"
+  }
 }
