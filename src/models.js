@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 // * Fechas se pueden manejar con number
 // * otra opción => https://firebase.google.com/docs/reference/js/firestore_.timestamp
 
