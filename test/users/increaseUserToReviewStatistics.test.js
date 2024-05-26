@@ -28,6 +28,14 @@ describe('increaseUserToReviewStatistics', () => {
     });
   });
 
+  afterEach(() => {
+    sinon.restore();
+  });
+
+  after(() => {
+    functions.cleanup();
+  });
+
   it('should update statistics if document exists', async () => {
     existsStub = sinon.stub().returns(true);
     dataStub = sinon.stub().returns({ value: 5 });
@@ -47,4 +55,21 @@ describe('increaseUserToReviewStatistics', () => {
     assert.strictEqual(typeof updatedData.modified, 'number');
   });
 
+  it('should set statistics if document does not exist', async () => {
+    existsStub = sinon.stub().returns(false);
+    getStub.resolves({
+      exists: existsStub(),
+    });
+
+    const wrappedFunction = functions.wrap(increaseUserToReviewStatistics);
+    await wrappedFunction({});
+
+    assert.strictEqual(docStub.calledWith(Statistics.usersToReview), true);
+    assert.strictEqual(getStub.calledOnce, true);
+    assert.strictEqual(setStub.calledOnce, true);
+    const setData = setStub.getCall(0).args[0];
+    assert.strictEqual(setData.value, 1);
+    assert.strictEqual(setData.label, FirestoreCollections.usersToReview);
+    assert.strictEqual(typeof setData.modified, 'number');
+  });
 });
