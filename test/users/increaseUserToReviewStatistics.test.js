@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const assert = require('assert');
 const sinon = require('sinon');
 const { increaseUserToReviewStatistics } = require('../../src/users/increaseUserToReviewStatistics');
-const { FirestoreCollections, Statistics } = require('../../src');
+const { FirestoreCollections, Statistics } = require('../../src/models');
 
 describe('increaseUserToReviewStatistics', () => {
   let firestoreStub, docStub, getStub, updateStub, setStub, existsStub, dataStub;
