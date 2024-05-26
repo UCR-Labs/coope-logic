@@ -28,6 +28,23 @@ describe('increaseUserToReviewStatistics', () => {
     });
   });
 
+  it('should update statistics if document exists', async () => {
+    existsStub = sinon.stub().returns(true);
+    dataStub = sinon.stub().returns({ value: 5 });
+    getStub.resolves({
+      exists: existsStub(),
+      data: dataStub,
+    });
 
+    const wrappedFunction = functions.wrap(increaseUserToReviewStatistics);
+    await wrappedFunction({});
+
+    assert.strictEqual(docStub.calledWith(Statistics.usersToReview), true);
+    assert.strictEqual(getStub.calledOnce, true);
+    assert.strictEqual(updateStub.calledOnce, true);
+    const updatedData = updateStub.getCall(0).args[0];
+    assert.strictEqual(updatedData.value, 6);
+    assert.strictEqual(typeof updatedData.modified, 'number');
+  });
 
 });
