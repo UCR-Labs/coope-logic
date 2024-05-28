@@ -1,6 +1,6 @@
 {
   "name": "coope-logic",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Libreria para el manejo de negocio de coope ",
   "main": "index.js",
   "scripts": {
