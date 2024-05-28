@@ -38,6 +38,9 @@ jobs:
           npm test
           npx nyc check-coverage --lines 100 --per-file
 
+      - name: Crear Build
+        run: npm run ci
+
   creartag:
     name: Crear Tag
     needs: construir
