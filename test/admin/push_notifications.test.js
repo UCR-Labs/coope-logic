@@ -1,4 +1,3 @@
-const functions = require('firebase-functions-test')();
 const admin = require('firebase-admin');
 const assert = require('assert');
 const sinon = require('sinon');
@@ -20,58 +19,47 @@ describe('adminPushNotifications', () => {
     sinon.restore();    
   });
 
-  after(() => {
-    functions.cleanup();
-  });
-
-  it('should send notifications when tokens are provided', async () => {
-    const snapshot = functions.firestore.makeDocumentSnapshot({
-      title: 'Test Title',
-      body: 'Test Body',
-      tokens: ['token1', 'token2']
-    }, 'notifications/testNotification');
-
-    const wrappedFunction = functions.wrap(adminPushNotifications);
-    await wrappedFunction(snapshot);
-
-    assert.strictEqual(sendEachMock.called, true);    
-    const messages = sendEachMock.getCall(0).args[0];
-    assert.strictEqual(messages.length, 2);
-    assert.deepStrictEqual(messages, [
-      { token: 'token1', data: { notification: { title: 'Test Title', body: 'Test Body' } } },
-      { token: 'token2', data: { notification: { title: 'Test Title', body: 'Test Body' } } }
-    ]);
-  });
-
-  it('should not send notifications when there are no tokens', async () => {
-    const snapshot = functions.firestore.makeDocumentSnapshot({
-      title: 'Test Title',
-      body: 'Test Body',
-      tokens: []
-    }, 'notifications/testNotification');
-
-    const wrappedFunction = functions.wrap(adminPushNotifications);
-    await wrappedFunction(snapshot);
-    
+  it('should not call sendEach if tokens are empty', async () => {
+    await adminPushNotifications('Title', 'Body', []);
     assert.strictEqual(sendEachMock.called, false);
   });
 
-  it('should filter out empty tokens', async () => {
-    const snapshot = functions.firestore.makeDocumentSnapshot({
-      title: 'Test Title',
-      body: 'Test Body',
-      tokens: ['token1', '', 'token2', '']
-    }, 'notifications/testNotification');
+  it('should not call sendEach if all tokens are empty strings', async () => {
+    await adminPushNotifications('Title', 'Body', ['', '', '']);
+    assert.strictEqual(sendEachMock.called, false);
+  });
 
-    const wrappedFunction = functions.wrap(adminPushNotifications);
-    await wrappedFunction(snapshot);
+  it('should call sendEach with correct messages if there are valid tokens', async () => {
+    const tokens = ['token1', 'token2'];
+    const expectedMessages = tokens.map(token => ({
+      token: token,
+      data: {
+        notification: {
+          title: 'Title',
+          body: 'Body',
+        },
+      },
+    }));
 
-    assert.strictEqual(sendEachMock.called, true);
-    const messages = sendEachMock.getCall(0).args[0];
-    assert.strictEqual(messages.length, 2);
-    assert.deepStrictEqual(messages, [
-      { token: 'token1', data: { notification: { title: 'Test Title', body: 'Test Body' } } },
-      { token: 'token2', data: { notification: { title: 'Test Title', body: 'Test Body' } } }
-    ]);
+    await adminPushNotifications('Title', 'Body', tokens);
+    assert.strictEqual(sendEachMock.calledOnce, true);
+    assert.deepStrictEqual(sendEachMock.firstCall.args[0], expectedMessages);
+  });
+
+  it('should handle mixed valid and empty tokens', async () => {
+    const tokens = ['token1', '', 'token2', ''];
+    const expectedMessages = ['token1', 'token2'].map(token => ({
+      token: token,
+      data: {
+        notification: {
+          title: 'Title',
+          body: 'Body',
+        },
+      },
+    }));
+    
+    await adminPushNotifications('Title', 'Body', tokens);
+    assert.strictEqual(sendEachMock.calledOnce, true);
+    assert.deepStrictEqual(sendEachMock.firstCall.args[0], expectedMessages);
   });
 });
