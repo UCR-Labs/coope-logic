@@ -48,4 +48,4 @@ jobs:
         uses: Klemensas/action-autotag@stable
         with:
           GITHUB_TOKEN: "${{ secrets.MY_ACCESS_TOKEN }}"
-          tag_prefix: "CoopeLogic"
+          tag_prefix: "v"
