@@ -24,6 +24,9 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
+    "nyc": "^15.1.0",
+    "sinon": "^18.0.0",
+    "axios": "^1.6.8",
     "node-localstorage": "^3.0.5",
     "sqlite3": "^5.1.7"
   }
