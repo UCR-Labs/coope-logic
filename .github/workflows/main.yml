@@ -7,7 +7,7 @@ on:
 
 jobs:
   construir:
-    name: Construir Interfaces
+    name: Construir Lógica
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,4 +48,4 @@ jobs:
         uses: Klemensas/action-autotag@stable
         with:
           GITHUB_TOKEN: "${{ secrets.MY_ACCESS_TOKEN }}"
-          tag_prefix: "CoopeBackend"
+          tag_prefix: "CoopeLogica"
