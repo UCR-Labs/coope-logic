@@ -1,3 +1,4 @@
+"use strict";
 class LocalStorage {
   SetKeyValue(key, value, callback) {
     if (!key || !value) {
