@@ -1,4 +1,4 @@
-name: Construir Interfaces Base de Datos
+name: Construir Lógica de Proyectos Ride
 
 on:
   push:
