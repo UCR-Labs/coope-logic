@@ -38,17 +38,6 @@ jobs:
           npm test
           npx nyc check-coverage --lines 100 --per-file
 
-      - name: Configurar identidad de Git
-        run: |
-          git config --global user.email "cristian.martinezhernandez@ucr.ac.cr"
-          git config --global user.name "CristianUCR"
-
-      - name: Incrementar Versión
-        run: npm version patch
-        
-      - name: Crear Build
-        run: npm run ci
-
   creartag:
     name: Crear Tag
     needs: construir
