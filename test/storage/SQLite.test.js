@@ -1,11 +1,11 @@
 const assert = require("assert");
 const sqlite3 = require("sqlite3").verbose();
-const SQLite = require("../../src/storage/SQLite");
 const SQLiteFunctions = require("../../src/storage/SQLite");
 
 describe("SQLiteTestUnits", function () {
   let db;
   const sqliteFunct = new SQLiteFunctions();
+
   beforeEach(function (done) {
     db = new sqlite3.Database(":memory:");
     db.serialize(() => {
@@ -14,7 +14,15 @@ describe("SQLiteTestUnits", function () {
   });
 
   afterEach(function (done) {
-    db.close(done);
+    // Ensure the database is only closed if it is open
+    if (db) {
+      db.close((err) => {
+        db = null; // Set db to null after closing
+        done(err);
+      });
+    } else {
+      done();
+    }
   });
 
   describe("SetKeyValueSuccess()", function () {
@@ -35,6 +43,7 @@ describe("SQLiteTestUnits", function () {
       sqliteFunct.SetKeyValue(db, "key1", "value1", (err) => {
         assert.strictEqual(err, null);
         sqliteFunct.SetKeyValue(db, "key1", "value2", (err) => {
+          assert.strictEqual(err, null);
           db.get("SELECT value FROM kv WHERE key = ?", ["key1"], (err, row) => {
             assert.strictEqual(err, null);
             assert.strictEqual(row.value, "value2");
@@ -74,7 +83,7 @@ describe("SQLiteTestUnits", function () {
     });
   });
 
-  describe("GetKeyValueReturnNullOrNon-Existing()", function () {
+  describe("GetKeyValueReturnNullOrNonExisting()", function () {
     it("should return null for a non-existing key", function (done) {
       sqliteFunct.GetKeyValue(db, "nonExistingKey", (err, value) => {
         assert.strictEqual(err, null);
@@ -88,6 +97,7 @@ describe("SQLiteTestUnits", function () {
     it("should handle database errors gracefully", function (done) {
       // Close the database to force an error
       db.close(() => {
+        db = null; // Set db to null after closing
         sqliteFunct.GetKeyValue(db, "key1", (err, value) => {
           assert(err instanceof Error);
           assert.strictEqual(value, undefined);

@@ -16,12 +16,13 @@ class SQLiteFunctions {
   }
 
   GetKeyValue(db, key, callback) {
-    db.get("SELECT value FROM kv WHERE key = ?", [key], (err, row) => {
-      if (err) {
-        return callback(err);
-      }
-      callback(null, row ? row.value : null);
-    });
+    try {
+      db.get("SELECT value FROM kv WHERE key = ?", [key], (err, row) => {
+        callback(null, row ? row.value : null);
+      });
+    } catch (err) {
+      callback(err);
+    }
   }
 }
 
