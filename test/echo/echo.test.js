@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const Echo = require('../src/echo/echo'); 
+const Echo = require('../../src/echo/echo'); 
 
 describe('Echo', () => {
   let echo;
