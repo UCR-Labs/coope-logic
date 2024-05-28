@@ -7,7 +7,7 @@ admin.initializeApp();
  * Obtiene un documento con la notificación a enviar, y realiza la lógica
  * necesaria para enviar dicha notificación a los dispositivos correspondientes
  */
-const adminPushNotifications = async (title, body, tokens) => {
+const AdminPushNotifications = async (title, body, tokens) => {
   const filteredTokens = tokens.filter((token) => token.length > 0);
   const payload = {
     notification: {
@@ -26,4 +26,4 @@ const adminPushNotifications = async (title, body, tokens) => {
   }
 };
 
-module.exports = { adminPushNotifications };
+module.exports = { AdminPushNotifications };

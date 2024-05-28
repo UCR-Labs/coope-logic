@@ -6,7 +6,7 @@ const axios = require('axios');
  * @param {string} apiKey - La clave de la API de Google.
  * @returns {Promise<Object>} - Un objeto JSON con la dirección formateada.
  */
-const geocode = async (location, apiKey) => {
+const Geocode = async (location, apiKey) => {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location}&key=${apiKey}&language=es`;
   try {
     const result = await axios.get(url);
@@ -20,4 +20,4 @@ const geocode = async (location, apiKey) => {
   }
 };
 
-module.exports = { geocode };
+module.exports = { Geocode };

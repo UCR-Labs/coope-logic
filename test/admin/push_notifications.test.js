@@ -1,9 +1,9 @@
 const admin = require('firebase-admin');
 const assert = require('assert');
 const sinon = require('sinon');
-const { adminPushNotifications } = require('../../src/admin/push_notifications');
+const { AdminPushNotifications } = require('../../src/admin/push_notifications');
 
-describe('adminPushNotifications', () => {
+describe('AdminPushNotifications', () => {
   let sendEachMock;
 
   beforeEach(() => {
@@ -20,12 +20,12 @@ describe('adminPushNotifications', () => {
   });
 
   it('should not call sendEach if tokens are empty', async () => {
-    await adminPushNotifications('Title', 'Body', []);
+    await AdminPushNotifications('Title', 'Body', []);
     assert.strictEqual(sendEachMock.called, false);
   });
 
   it('should not call sendEach if all tokens are empty strings', async () => {
-    await adminPushNotifications('Title', 'Body', ['', '', '']);
+    await AdminPushNotifications('Title', 'Body', ['', '', '']);
     assert.strictEqual(sendEachMock.called, false);
   });
 
@@ -41,7 +41,7 @@ describe('adminPushNotifications', () => {
       },
     }));
 
-    await adminPushNotifications('Title', 'Body', tokens);
+    await AdminPushNotifications('Title', 'Body', tokens);
     assert.strictEqual(sendEachMock.calledOnce, true);
     assert.deepStrictEqual(sendEachMock.firstCall.args[0], expectedMessages);
   });
@@ -58,7 +58,7 @@ describe('adminPushNotifications', () => {
       },
     }));
     
-    await adminPushNotifications('Title', 'Body', tokens);
+    await AdminPushNotifications('Title', 'Body', tokens);
     assert.strictEqual(sendEachMock.calledOnce, true);
     assert.deepStrictEqual(sendEachMock.firstCall.args[0], expectedMessages);
   });
