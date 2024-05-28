@@ -1,6 +1,6 @@
 {
   "name": "coope-logic",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Libreria para el manejo de negocio de coope ",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/UCR-Labs/coope-logic#readme",
   "devDependencies": {
     "mocha": "^10.4.0",
-    "nyc": "^15.1.0", 
+    "nyc": "^15.1.0",
     "node-localstorage": "^3.0.5"
   },
   "dependencies": {
