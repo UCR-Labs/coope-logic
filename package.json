@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UCR-Labs/Coope-Logic.git"
+    "url": "git+https://github.com/UCR-Labs/coope-logic.git"
   },
   "keywords": [
     "Coope"
@@ -17,9 +17,9 @@
   "author": "UCR-Labs",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/UCR-Labs/Coope-Logic/issues"
+    "url": "https://github.com/UCR-Labs/coope-logic/issues"
   },
-  "homepage": "https://github.com/UCR-Labs/Coope-Logic#readme",
+  "homepage": "https://github.com/UCR-Labs/coope-logic#readme",
   "devDependencies": {
     "mocha": "^10.4.0",
     "nyc": "^15.1.0"
