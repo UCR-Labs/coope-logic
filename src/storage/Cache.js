@@ -7,13 +7,8 @@ class Cache {
     if (!key || !value) {
       return callback(new Error("Invalid key or value"));
     }
-
-    try {
-      this.cache[key] = value;
-      callback(null);
-    } catch (err) {
-      callback(err);
-    }
+    this.cache[key] = value;
+    callback(null);
   }
 
   GetKeyValue(key, callback) {

@@ -1,21 +1,14 @@
 const assert = require("assert");
-const Cache = require("../../src/storage/Cache");
 const CacheFunctions = require("../../src/storage/Cache");
 
 describe("CacheTestUnits", function () {
-  let cache;
   const cacheFunct = new CacheFunctions();
-
-  beforeEach(function () {
-    // Create a new cache instance before each test
-    cache = new Cache();
-  });
 
   describe("SetKeyValueSuccess()", function () {
     it("should save a key-value pair", function (done) {
       cacheFunct.SetKeyValue("key1", "value1", (err) => {
         assert.strictEqual(err, null);
-        const value = cache.cache["key1"];
+        const value = cacheFunct.cache["key1"];
         assert.strictEqual(value, "value1");
         done();
       });
@@ -28,7 +21,7 @@ describe("CacheTestUnits", function () {
         assert.strictEqual(err, null);
         cacheFunct.SetKeyValue("key1", "value2", (err) => {
           assert.strictEqual(err, null);
-          const value = cache.cache["key1"];
+          const value = cacheFunct.cache["key1"];
           assert.strictEqual(value, "value2");
           done();
         });
@@ -50,7 +43,7 @@ describe("CacheTestUnits", function () {
 
   describe("GetKeyValueSuccess()", function () {
     it("should retrieve the value for an existing key", function (done) {
-      cache.cache["key1"] = "value1";
+      cacheFunct.cache["key1"] = "value1";
       cacheFunct.GetKeyValue("key1", (err, value) => {
         assert.strictEqual(err, null);
         assert.strictEqual(value, "value1");
@@ -72,15 +65,66 @@ describe("CacheTestUnits", function () {
   describe("GetKeyValueReturnError()", function () {
     it("should handle cache errors gracefully", function (done) {
       // Simulate a cache error by overriding the cache temporarily
-      const originalCache = cache.cache;
-      cache.cache = null;
+      const originalCache = cacheFunct.cache;
+      cacheFunct.cache = null;
 
       cacheFunct.GetKeyValue("key1", (err, value) => {
         assert(err instanceof Error);
         assert.strictEqual(value, undefined);
 
         // Restore the original cache
-        cache.cache = originalCache;
+        cacheFunct.cache = originalCache;
+        done();
+      });
+    });
+  });
+
+  describe("SetKeyValueSuccess()", function () {
+    it("should save a key-value pair", function (done) {
+      cacheFunct.SetKeyValue("key1", "value1", (err) => {
+        assert.strictEqual(err, null);
+        const value = cacheFunct.cache["key1"];
+        assert.strictEqual(value, "value1");
+        done();
+      });
+    });
+
+    it("should return an error if the key is missing", function (done) {
+      cacheFunct.SetKeyValue(null, "value1", (err) => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.message, "Invalid key or value");
+        done();
+      });
+    });
+
+    it("should return an error if the value is missing", function (done) {
+      cacheFunct.SetKeyValue("key1", null, (err) => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.message, "Invalid key or value");
+        done();
+      });
+    });
+
+    it("should return an error if both key and value are missing", function (done) {
+      cacheFunct.SetKeyValue(null, null, (err) => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.message, "Invalid key or value");
+        done();
+      });
+    });
+
+    it("should return an error if the key is an empty string", function (done) {
+      cacheFunct.SetKeyValue("", "value1", (err) => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.message, "Invalid key or value");
+        done();
+      });
+    });
+
+    it("should return an error if the value is an empty string", function (done) {
+      cacheFunct.SetKeyValue("key1", "", (err) => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.message, "Invalid key or value");
         done();
       });
     });
