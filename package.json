@@ -22,13 +22,13 @@
   "homepage": "https://github.com/UCR-Labs/coope-logic#readme",
   "devDependencies": {
     "mocha": "^10.4.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0", 
+    "node-localstorage": "^3.0.5"
   },
   "dependencies": {
     "nyc": "^15.1.0",
     "sinon": "^18.0.0",
     "axios": "^1.6.8",
-    "node-localstorage": "^3.0.5",
     "sqlite3": "^5.1.7"
   }
 }
