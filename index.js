@@ -1,3 +1,4 @@
+"use strict";
 //Incluir todas las clases que desean exportar
 export { SQLiteFunctions } from "./src/storage/SQLite";
 export { CacheFunctions } from "./src/storage/Cache";
