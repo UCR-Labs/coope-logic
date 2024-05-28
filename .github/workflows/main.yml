@@ -38,6 +38,9 @@ jobs:
           npm test
           npx nyc check-coverage --lines 100 --per-file
 
+      - name: Incrementar Versión
+        run: npm version patch
+        
       - name: Crear Build
         run: npm run ci
 
@@ -50,5 +53,4 @@ jobs:
       - name: Crear tag
         uses: Klemensas/action-autotag@stable
         with:
-          GITHUB_TOKEN: "${{ secrets.MY_ACCESS_TOKEN }}"
           tag_prefix: "CoopeLogica"
