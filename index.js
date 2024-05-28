@@ -1,5 +1,12 @@
 "use strict";
+
 //Incluir todas las clases que desean exportar
-export { SQLiteFunctions } from "./src/storage/SQLite";
-export { CacheFunctions } from "./src/storage/Cache";
-export { LocalStorageFunctions } from "./src/storage/LocalStorage";
+const SQLiteFunctions = require("./src/storage/SQLite");
+const CacheFunctions = require("./src/storage/Cache");
+const LocalStorageFunctions = require("./src/storage/LocalStorage");
+
+module.exports = {
+  SQLiteFunctions,
+  CacheFunctions,
+  LocalStorageFunctions
+};
