@@ -3,7 +3,6 @@
   "version": "1.0.8",
   "description": "Libreria para el manejo de negocio de coope ",
   "main": "index.js",
-  "types": "index.d.ts",
   "scripts": {
     "test": "nyc mocha 'test/**/*.js'",
     "new": "npm version patch"
