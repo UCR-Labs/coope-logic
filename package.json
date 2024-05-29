@@ -30,6 +30,9 @@
     "firebase-functions": "^5.0.1",
     "nyc": "^15.1.0",
     "sinon": "^18.0.0",
+    "node-localstorage": "^3.0.5",
+    "sqlite3": "^5.1.7"
+  }
     "sqlite3": "^5.1.7"
   }
 }
