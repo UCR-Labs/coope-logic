@@ -1,9 +1,9 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const axios = require('axios');
-const { geocode } = require('../../src/google_maps/geocode');
+const { Geocode } = require('../../src/google_maps/geocode');
 
-describe('geocode', () => {
+describe('Geocode', () => {
   let axiosStub;
 
   before(() => {
@@ -18,7 +18,7 @@ describe('geocode', () => {
     axiosStub.restore();
   });
  
-  it('should return the geocode from a valid location', async () => {
+  it('should return the Geocode from a valid location', async () => {
     const location = '9.957933,-84.072268';
     const apiKey = 'test-api-key';
     const response = {
@@ -32,11 +32,11 @@ describe('geocode', () => {
     };
     axiosStub.resolves(response);
 
-    const result = await geocode(location, apiKey);
+    const result = await Geocode(location, apiKey);
     assert.deepStrictEqual(result, { address: 'WWH5+6PC, San José, Bolivar, Costa Rica' });
   });
   
-  it('should get an error if the geocode is not found', async () => {
+  it('should get an error if the Geocode is not found', async () => {
     const location = '0,-160';
     const apiKey = 'test-api-key';
     const response = {
@@ -47,7 +47,7 @@ describe('geocode', () => {
     axiosStub.resolves(response);    
 
     try {
-      await geocode(location, apiKey);
+      await Geocode(location, apiKey);
       assert.fail('Expected error not thrown');
     } catch (error) {
       assert.strictEqual(error.message, 'Server error');
@@ -60,7 +60,7 @@ describe('geocode', () => {
     axiosStub.rejects(new Error('Server error'));
 
     try {
-      await geocode(location, apiKey);
+      await Geocode(location, apiKey);
       assert.fail('Expected error not thrown');
     } catch (error) {
       assert.strictEqual(error.message, 'Server error');
