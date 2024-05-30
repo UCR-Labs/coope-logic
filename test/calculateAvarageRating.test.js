@@ -2,12 +2,11 @@ const assert = require('assert');
 const sinon = require('sinon');
 const { calculateAverageRatingForUser } = require('../src/calculateAverageRating');
 
-// Mock Firestore and its collection method
 const db = {
   collection: sinon.stub(),
 };
 
-// Mock FirestoreCollections constant
+
 const FirestoreCollections = {
   averageRating: 'averageRating',
 };
@@ -21,13 +20,13 @@ const Rating = {
   ratingValue: 4,
 };
 
-// Mock Firestore document
+
 const mockDoc = {
   exists: false,
   data: sinon.stub(),
 };
 
-// Mock Firestore collection and document
+
 db.collection.returns({
   doc: sinon.stub().returns({
     get: sinon.stub().resolves(mockDoc),
@@ -39,7 +38,7 @@ describe('calculateAverageRatingForUser', function() {
 
     mockDoc.exists = false;
 
-    const result = await calculateAverageRatingForUser('user1', UserType.USER, Rating);
+    const result = await calculateAverageRatingForUser('user1', UserType.USER, Rating, db);
 
     assert.strictEqual(result.ratedUserId, 'user1');
     assert.strictEqual(result.ratedUserType, UserType.USER);

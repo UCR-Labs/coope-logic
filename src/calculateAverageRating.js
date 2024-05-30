@@ -1,39 +1,12 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import * as express from 'express';
-import * as cors from 'cors';
 
-const app = express();
-app.use(cors());
-const db = admin.firestore();
-import {AverageRating, Rating, UserType, FirestoreCollections} from 'rideTypes';
-
-exports.calculateAverageRating = functions.firestore
-  .document(`${FirestoreCollections.ratings}/{ratingId}`)
-  .onCreate(async (snapshot) => {
-    const newRating = snapshot.data();
-    const userId = newRating.ratedUserId;
-
-    const averageRating = await calculateAverageRatingForUser(
-      userId,
-      newRating.ratedUserType,
-      newRating
-    );
-
-    await db
-      .collection(FirestoreCollections.averageRating)
-      .doc(userId)
-      .set(averageRating);
-  });
-
-
-async function calculateAverageRatingForUser(userId, userType, newRating) {
-    const averageRatingDoc = await db
+class CalculateAvareRating {
+  calculateAverageRatingForUser(userId, userType, newRating, db) {
+    const averageRatingDoc = db
       .collection(FirestoreCollections.averageRating)
       .doc(userId)
       .get();
     let averageRating;
-  
+
     if (averageRatingDoc.exists) {
       averageRating = averageRatingDoc.data();
       averageRating.numberOfRatings += 1;
@@ -49,9 +22,36 @@ async function calculateAverageRatingForUser(userId, userType, newRating) {
         average: newRating.ratingValue,
       };
     }
-  
+
     return averageRating;
   }
-  
-  module.exports = { calculateAverageRatingForUser };
-  
+
+  async get(request, response, db) {
+    const { userId } = request.params;
+    try {
+      const mainDocs = [];
+      const ratingRef = await db.collection(FirestoreCollections.averageRating);
+      if (userId) {
+        const finalResult = ratingRef.where('ratedUserId', '==', userId);
+        const docs = await finalResult.get();
+        const promises = docs.map(async (doc) => {
+          const data = doc.data();
+          if (data.average !== undefined) {
+            const average = parseFloat(data.average);
+            if (!isNaN(average)) {
+              const formattedAverage = average.toFixed(1);
+              mainDocs.push({ ...data, _id: doc.id, average: formattedAverage });
+            }
+          }
+        });
+        await Promise.all(promises);
+      }
+
+      response.json(mainDocs);
+    } catch (error) {
+      response.status(500).json({ errors: error });
+    }
+  }
+}
+
+module.exports = CalculateAvareRating;
